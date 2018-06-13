@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${book.id == null} ? 'Книжная полка | Добавление' : 'Книжная полка | Редактирование'">Книжная полка</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body>
+    <form id="update-form" method="post" th:object="${book}" th:action="${book.id == null ? '/books/create' : '/books/__*{id}__/update'}">
+        <table>
+            <tbody>
+            <tr>
+                <td>ISBN:</td>
+                <td><input th:field="*{isbn}"/></td>
+                <td th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" th:class="error">error</td>
+            </tr>
+            <tr>
+                <td>Название:</td>
+                <td><input th:field="*{title}"/></td>
+                <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}" th:class="error">error</td>
+            </tr>
+            <tr>
+                <td>Автор:</td>
+                <td><input th:field="*{author}" th:readonly="*{id != null}"/></td>
+                <td th:if="${#fields.hasErrors('author')}" th:errors="*{author}" th:class="error">error</td>
+            </tr>
+            <tr>
+                <td>Год:</td>
+                <td><input th:field="*{printYear}"/></td>
+                <td th:if="${#fields.hasErrors('printYear')}" th:errors="*{printYear}" th:class="error">error</td>
+            </tr>
+            <tr th:if="false">
+                <td>Читал ли кто-то эту книгу:</td>
+                <td><input th:field="*{readAlready}" type="checkbox"></td>
+                <td th:if="${#fields.hasErrors('readAlready')}" th:errors="*{readAlready}" th:class="error">error</td>
+            </tr>
+            <tr>
+                <td>Описание:</td>
+                <td><textarea rows="5" cols="40" th:field="*{description}"></textarea></td>
+                <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:class="error">error</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" th:value="${book.id == null} ? 'Добавить' : 'Изменить'"/>
+                    <input type="button" th:value="Отмена" th:onclick="'window.history.back();'"/>
+                </td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</body>
+</html>

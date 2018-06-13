@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Книжная полка</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div>
+        <a th:href="@{/books/create}"><button class="btn success">Добавить книгу</button></a>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Год</th>
+            <th>Читал ли кто-то эту книгу</th>
+        </tr>
+        </thead>
+        <tbody>
+        <form id="filter-form" action="/books" method="post">
+        <tr>
+            <td></td>
+            <td><div class="example">
+                <input type="text" placeholder="Search.." id="searchTitle" name="searchTitle" th:value="${searchTitle}">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div></td>
+            <td><div class="example">
+                <input type="text" placeholder="Search.." id="searchAuthor" name="searchAuthor" th:value="${searchAuthor}">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </form>
+        <tr th:each="book: ${books}" class="list" th:onclick="|window.location.href='/books/${book.id}'|">
+            <td th:text="${book.isbn}"></td>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.printYear}"></td>
+            <td>
+                <input type="checkbox" disabled th:checked="${book.readAlready}">
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <div class="pagination">
+                    <a th:each="page: ${pagination}"
+                           th:href="${page.getValue()}"
+                           th:text="${page.getKey()}"
+                           th:class="${page.getKey() eq pageNumber ? 'active' : ''}"></a>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</body>
+</html>

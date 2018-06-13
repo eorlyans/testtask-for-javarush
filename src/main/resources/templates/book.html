@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Книжная полка | Просмотр</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div>
+        <a href="/books"><button class="btn"><i class="fa fa-home"></i> Список киг</button></a>
+    </div>
+    <table>
+        <tbody>
+        <tr>
+            <td>ISBN:</td>
+            <td th:text="${book.isbn}"></td>
+        </tr>
+        <tr>
+            <td>Название:</td>
+            <td th:text="${book.title}"></td>
+        </tr>
+        <tr>
+            <td>Автор:</td>
+            <td th:text="${book.author}"></td>
+        </tr>
+        <tr>
+            <td>Год:</td>
+            <td th:text="${book.printYear}"></td>
+        </tr>
+        <tr>
+            <td>Читал ли кто-то эту книгу:</td>
+            <td th:if="${book.readAlready}">ДА</td>
+            <td th:if="!${book.readAlready}">
+                <form id="read-form" method="post" th:action="@{/books/__${book.id}__/read}">
+                    <input type="hidden" th:field="${book.id}"/>
+                    НЕТ <input type="submit" th:onclick="|return confirm('Are you sure?');|" value="Книгу прочитали!"/>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Описание:</td>
+            <td th:text="${book.description}"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>
+                <form id="delete-form" method="post" th:action="@{/books/__${book.id}__/delete}">
+                    <input type="hidden" th:field="${book.id}"/>
+                    <button class="btn" type="submit" th:onclick="|return confirm('Are you sure?');|"><i class="fa fa-trash"></i> Удалить</button>
+                </form>
+            </td>
+            <td><a th:href="@{/books/__${book.id}__/update}">
+                <button class="btn success">Заменить на новое издание</button>
+            </a></td>
+        </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
